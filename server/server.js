@@ -11,11 +11,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
+app.get("/:search", (req, res) => {
+  const { search } = req.params;
   axios
     .get("https://openapi.naver.com/v1/search/movie.json", {
       params: {
-        query: "iron",
+        query: search,
         display: 20,
       },
       headers: {
