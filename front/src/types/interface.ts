@@ -2,11 +2,11 @@ interface ItemProps {
   title: string;
   link: string;
   image: string;
-  subtitle: string;
-  pubDate: string;
-  director: string;
-  actor: string;
-  userRating: string;
+  author: string;
+  price: string;
+  discount: string;
+  pubdate: string;
+  description: string;
 }
 
 export type { ItemProps };

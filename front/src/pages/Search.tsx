@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMovieList } from "../api";
-import { SearchInput } from "../features/SearchInput";
 import { ItemProps } from "../types/interface";
 import styled from "styled-components";
 
@@ -9,16 +8,12 @@ function Search() {
   const { search } = useParams();
 
   const [data, setData] = useState<Promise<ItemProps[] | undefined>>();
-  const [movieList, setMovieList] = useState<ItemProps[]>();
+  const [bookList, setBookList] = useState<ItemProps[]>();
 
-  const sliceScript = (str: string, num: number): string => {
-    const newScript = str.split("|");
-    newScript.pop();
+  const toComma = (price: string): string => {
+    const newPrice = Number(price).toLocaleString();
 
-    if (newScript.length > num) {
-      return newScript.splice(0, num).join(" | ");
-    }
-    return newScript.join(" | ");
+    return newPrice;
   };
 
   useEffect(() => {
@@ -28,21 +23,20 @@ function Search() {
 
   useEffect(() => {
     if (data) {
-      data.then((res) => setMovieList(res));
+      data.then((res) => setBookList(res));
     }
   }, [data]);
 
   return (
     <div>
-      <SearchInput />
-      <MovieUl>
-        {movieList ? (
-          movieList.map((item) => {
+      <BookUl>
+        {bookList ? (
+          bookList.map((item) => {
             return (
-              <MovieLi key={item.link}>
-                <MovieA href={item.link}>
-                  <MovieItem>
-                    <MovieImage
+              <BookLi key={item.link}>
+                <BookA href={item.link}>
+                  <BookItem>
+                    <BookImage
                       src={
                         item.image !== ""
                           ? item.image
@@ -50,30 +44,34 @@ function Search() {
                       }
                       alt={item.title}
                     />
-
-                    <MovieScript>
-                      <MovieTitle dangerouslySetInnerHTML={{ __html: item.title }}></MovieTitle>
-                      <div>평점: {item.userRating} / 10.00</div>
-                      <div>개봉일: {item.pubDate}</div>
-                      <div>감독: {sliceScript(item.director, 2)}</div>
-                      <div>출연배우: {sliceScript(item.actor, 5)}</div>
-                    </MovieScript>
-                  </MovieItem>
-                </MovieA>
-              </MovieLi>
+                    <ScriptArea>
+                      <BookScript>
+                        <BookTitle dangerouslySetInnerHTML={{ __html: item.title }}></BookTitle>
+                        <div>저자: {item.author} / 10.00</div>
+                        <div>출판일: {item.pubdate}</div>
+                      </BookScript>
+                      <BookPrice>
+                        <span>가격:</span>
+                        <div>{item.discount !== "0" ? toComma(item.discount) : "재고 없음"}</div>
+                        <span>원</span>
+                      </BookPrice>
+                    </ScriptArea>
+                  </BookItem>
+                </BookA>
+              </BookLi>
             );
           })
         ) : (
           <div>검색된 영화가 없어요. 😥</div>
         )}
-      </MovieUl>
+      </BookUl>
     </div>
   );
 }
 
 export default Search;
 
-const MovieUl = styled.ul`
+const BookUl = styled.ul`
   margin: auto;
   padding: 0;
   list-style: none;
@@ -83,7 +81,7 @@ const MovieUl = styled.ul`
   justify-content: flex-start;
 `;
 
-const MovieLi = styled.li`
+const BookLi = styled.li`
   width: 45%;
 
   margin: 10px;
@@ -92,35 +90,55 @@ const MovieLi = styled.li`
   box-shadow: 1px 1px 5px grey;
 `;
 
-const MovieA = styled.a`
+const BookA = styled.a`
   text-decoration: none;
 `;
 
-const MovieItem = styled.div`
+const BookItem = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: row;
 `;
 
-const MovieImage = styled.img`
+const BookImage = styled.img`
   width: 30%;
   max-width: 110px;
   height: 180px;
-  margin: auto;
   object-fit: fill;
   border-radius: 7px;
   box-shadow: 1px 1px 5px grey;
 `;
 
-const MovieScript = styled.div`
-  width: 70%;
+const ScriptArea = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const BookScript = styled.div`
+  width: 90%;
+  height: 100%;
   margin: 0px 20px;
   div {
     color: black;
   }
 `;
 
-const MovieTitle = styled.div`
+const BookTitle = styled.div`
   font-weight: bold;
   font-size: 20px;
   margin: 10px 0px;
+`;
+
+const BookPrice = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  color: black;
+
+  div {
+    font-size: 20px;
+    font-weight: bold;
+  }
 `;
