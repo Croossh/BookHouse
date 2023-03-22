@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.get("/:search", (req, res) => {
   const { search } = req.params;
   axios
-    .get("https://openapi.naver.com/v1/search/movie.json", {
+    .get("https://openapi.naver.com/v1/search/book.json", {
       params: {
         query: search,
         display: 20,
