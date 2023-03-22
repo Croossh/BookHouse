@@ -1,6 +1,7 @@
 import axios from "axios";
+import { ItemProps } from "./types/interface";
 
-export const getMovieList = async (params?: string) => {
+export const getMovieList = async (params?: string): Promise<ItemProps[]> => {
   const res = await axios.get(`http://localhost:8080/${params}`);
-  console.log(res.data.items);
+  return res.data.items;
 };
