@@ -3,16 +3,20 @@ import { useParams } from "react-router-dom";
 import { getBookList } from "../usefulFuntion/api";
 import { ItemProps } from "../types/interface";
 import { Tooltip } from "@mui/material";
+import Pagination from "react-js-pagination";
 import styled from "styled-components";
 import SearchResult from "../features/SearchResult";
 import { toCommaPrice, toCommaPudDate } from "../usefulFuntion/toComma";
 import { GreetingContainer, Greeting } from "./Home";
+import "./Search.css";
 
 function Search() {
   const { search } = useParams();
 
   const [data, setData] = useState<Promise<ItemProps[] | undefined>>();
   const [bookList, setBookList] = useState<ItemProps[]>();
+  const [page, setPage] = useState<number>(1);
+  const [pageList, setPageList] = useState<ItemProps[]>();
 
   const orderToCheap = (
     bookList: ItemProps[]
@@ -32,6 +36,14 @@ function Search() {
     return;
   };
 
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
+
+  const sliceBookList = () => {
+    setPageList(bookList?.slice(10 * (page - 1), 10 * page));
+  };
+
   useEffect(() => {
     const listResponse = getBookList(search);
     setData(listResponse);
@@ -42,6 +54,10 @@ function Search() {
       data.then((res) => setBookList(res));
     }
   }, [data]);
+
+  useEffect(() => {
+    sliceBookList();
+  }, [bookList, page]);
 
   return (
     <Container>
@@ -56,9 +72,9 @@ function Search() {
       ) : null}
 
       <BookUl>
-        {bookList ? (
-          bookList.length !== 0 ? (
-            bookList.map((item) => {
+        {pageList ? (
+          pageList.length !== 0 ? (
+            pageList.map((item) => {
               return (
                 <BookLi key={item.link}>
                   <Tooltip title={item.description} arrow>
@@ -75,7 +91,9 @@ function Search() {
                         <ScriptArea>
                           <BookScript>
                             <BookTitle dangerouslySetInnerHTML={{ __html: item.title }}></BookTitle>
-                            <div>저자: {item.author !== "" ? item.author : "미상"}</div>
+                            <div>
+                              저자: {item.author !== "" ? item.author.replaceAll("^", ",") : "미상"}
+                            </div>
                             <div>출판일: {toCommaPudDate(item.pubdate)}</div>
                           </BookScript>
                           <BookPrice>
@@ -104,6 +122,15 @@ function Search() {
           </GreetingContainer>
         )}
       </BookUl>
+      {bookList ? (
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={bookList.length}
+          pageRangeDisplayed={5}
+          onChange={handlePageChange}
+        />
+      ) : null}
     </Container>
   );
 }
