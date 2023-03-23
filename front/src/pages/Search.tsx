@@ -17,12 +17,25 @@ function Search() {
   const [bookList, setBookList] = useState<ItemProps[]>();
   const [page, setPage] = useState<number>(1);
   const [pageList, setPageList] = useState<ItemProps[]>();
+  const [showNoPrice, setShowNoPrice] = useState<boolean>(false);
+
+  const handelShowNoPrice = (): React.MouseEventHandler<HTMLButtonElement> | undefined => {
+    setShowNoPrice(true);
+    return;
+  };
+
+  const filterNoPrice = (
+    bookList: ItemProps[]
+  ): React.MouseEventHandler<HTMLDivElement> | undefined => {
+    const filteredList = bookList.filter((item) => item.discount !== "0");
+    setBookList(filteredList);
+    return;
+  };
 
   const orderToCheap = (
     bookList: ItemProps[]
   ): React.MouseEventHandler<HTMLDivElement> | undefined => {
     const order = [...bookList].sort((a, b) => Number(a.discount) - Number(b.discount));
-    console.log("cheap", order);
     setBookList(order);
     return;
   };
@@ -31,7 +44,6 @@ function Search() {
     bookList: ItemProps[]
   ): React.MouseEventHandler<HTMLDivElement> | undefined => {
     const order = [...bookList].sort((a, b) => Number(b.discount) - Number(a.discount));
-    console.log("expen", order);
     setBookList(order);
     return;
   };
@@ -41,7 +53,7 @@ function Search() {
   };
 
   const sliceBookList = () => {
-    setPageList(bookList?.slice(10 * (page - 1), 10 * page));
+    setPageList(bookList?.slice(8 * (page - 1), 8 * page));
   };
 
   useEffect(() => {
@@ -57,18 +69,34 @@ function Search() {
 
   useEffect(() => {
     sliceBookList();
-  }, [bookList, page]);
+  }, [bookList, page, showNoPrice]);
+
+  console.log(showNoPrice);
 
   return (
     <Container>
-      <SearchResult />
+      <SearchResult props={bookList?.length} />
       <hr />
       {bookList ? (
-        <OrderContainer>
-          <div onClick={() => orderToCheap(bookList)}>낮은 가격순</div>
-          <span> | </span>
-          <div onClick={() => orderToExpensive(bookList)}>높은 가격순</div>
-        </OrderContainer>
+        <NavContainer>
+          {showNoPrice ? (
+            <OnNoPriceButton>재고없음 제외</OnNoPriceButton>
+          ) : (
+            <OffNoPriceButton
+              onClick={() => {
+                handelShowNoPrice();
+                filterNoPrice(bookList);
+              }}
+            >
+              재고없음 제외
+            </OffNoPriceButton>
+          )}
+          <OrderContainer>
+            <div onClick={() => orderToCheap(bookList)}>낮은 가격순</div>
+            <span> | </span>
+            <div onClick={() => orderToExpensive(bookList)}>높은 가격순</div>
+          </OrderContainer>
+        </NavContainer>
       ) : null}
 
       <BookUl>
@@ -125,7 +153,7 @@ function Search() {
       {bookList ? (
         <Pagination
           activePage={page}
-          itemsCountPerPage={10}
+          itemsCountPerPage={8}
           totalItemsCount={bookList.length}
           pageRangeDisplayed={5}
           onChange={handlePageChange}
@@ -140,6 +168,42 @@ export default Search;
 export const Container = styled.div`
   width: 100%;
   height: 100vh;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const OnNoPriceButton = styled.button`
+  background-color: #906290;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+
+  margin: 0px 20px;
+  width: 130px;
+  height: 30px;
+`;
+
+const OffNoPriceButton = styled.button`
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
+
+  margin: 0px 20px;
+  width: 130px;
+  height: 30px;
 `;
 
 const OrderContainer = styled.div`

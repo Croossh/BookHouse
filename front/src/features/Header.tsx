@@ -1,10 +1,17 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
+
+  const navigateHome = () => {
+    navigate("/");
+    return;
+  };
+
   return (
     <HeaderDiv>
-      <MainImg src={process.env.PUBLIC_URL + "/image/main.png"} />
+      <MainImg src={process.env.PUBLIC_URL + "/image/main.png"} onClick={() => navigateHome()} />
       <MainMenu>
         <Link to="/">홈으로</Link>
       </MainMenu>
@@ -30,6 +37,7 @@ const MainImg = styled.img`
   height: 80px;
   margin: auto 40px;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const MainMenu = styled.div`
