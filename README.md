@@ -9,6 +9,12 @@
 ### 기술 스택
 - TypeScript 기반 React, Redux, Express, Styled-Components, MUI
 
+### 기능
+- 도서 검색 및 네이버 도서 연결
+- 낮은 가격순 높은 가격순 정렬
+- 재고 없음 제외
+- 페이지네이션
+
 ### 프로젝트 구조
 
 ```
