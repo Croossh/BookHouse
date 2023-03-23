@@ -17,7 +17,7 @@ app.get("/:search", (req, res) => {
     .get("https://openapi.naver.com/v1/search/book.json", {
       params: {
         query: search,
-        display: 20,
+        display: 100,
       },
       headers: {
         "X-Naver-Client-Id": process.env.ID_KEY,
