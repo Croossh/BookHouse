@@ -1,6 +1,6 @@
 import { Routes as ReactRouters, Route, BrowserRouter } from "react-router-dom";
 import Header from "./features/Header";
-import { SearchInput } from "./features/SearchInput";
+import { SearchInput } from "./features/searchInput/SearchInput";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 

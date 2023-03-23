@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { inputChange } from "./SearchInputSlice";
 import styled from "styled-components";
 
 export function SearchInput() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -14,7 +17,7 @@ export function SearchInput() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    dispatch(inputChange(inputValue));
     navigate(`/${inputValue}`);
   };
 
@@ -61,7 +64,7 @@ const Input = styled.input`
 `;
 
 const Botton = styled.button`
-  background-color: #7f637f;
+  background-color: #906290;
   border: none;
   border-radius: 10px;
   cursor: pointer;

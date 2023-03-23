@@ -9,4 +9,8 @@ interface ItemProps {
   description: string;
 }
 
-export type { ItemProps };
+interface OrderPriceProps {
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
+export type { ItemProps, OrderPriceProps };

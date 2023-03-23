@@ -1,7 +1,8 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import searchInputReducer from "../features/searchInput/SearchInputSlice";
 
 export const store = configureStore({
-  reducer: {},
+  reducer: { searchInputReducer },
 });
 
 export type AppDispatch = typeof store.dispatch;
