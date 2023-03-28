@@ -1,5 +1,5 @@
 # 책 검색 서비스, 북하우스
-<img src="readme/search 화면.jpg" width="80%" height="auto"/>
+<img src="readme/메인.jpg" width="80%" height="auto"/>
 
 ## 1. 서비스 소개
 
