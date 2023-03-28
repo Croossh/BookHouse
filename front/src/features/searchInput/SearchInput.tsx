@@ -40,6 +40,12 @@ const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    margin: auto;
+    width: 100%;
+    margin: 20px auto;
+  }
 `;
 
 const FormContainer = styled.form`
@@ -61,6 +67,11 @@ const Input = styled.input`
 
   outline: none;
   border: none;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    margin: auto;
+    width: 100%;
+  }
 `;
 
 const Botton = styled.button`

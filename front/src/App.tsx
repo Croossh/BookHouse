@@ -20,4 +20,9 @@ const Container = styled.div`
   left: 0;
   margin: auto;
   width: 1000px;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    margin: auto;
+    width: 100%;
+  }
 `;

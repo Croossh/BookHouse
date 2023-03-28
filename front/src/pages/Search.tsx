@@ -71,8 +71,6 @@ function Search() {
     sliceBookList();
   }, [bookList, page, showNoPrice]);
 
-  console.log(showNoPrice);
-
   return (
     <Container>
       <SearchResult props={bookList?.length} />
@@ -229,6 +227,10 @@ const BookUl = styled.ul`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const BookLi = styled.li`
@@ -238,6 +240,10 @@ const BookLi = styled.li`
   padding: 10px;
   border-radius: 7px;
   box-shadow: 1px 1px 5px grey;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 const BookA = styled.a`

@@ -24,5 +24,15 @@ const ResultContainer = styled.div`
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 10px;
+
+    @media (min-width: 320px) and (max-width: 960px) {
+      font-size: 20px;
+    }
+  }
+
+  span {
+    @media (min-width: 320px) and (max-width: 960px) {
+      font-size: 13px;
+    }
   }
 `;

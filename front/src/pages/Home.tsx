@@ -15,10 +15,18 @@ export const GreetingContainer = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    width: 100%;
+  }
 `;
 
 export const Greeting = styled.div`
   margin: 50px;
   font-size: 20px;
   font-weight: bold;
+
+  @media (min-width: 320px) and (max-width: 960px) {
+    width: 100%;
+  }
 `;
