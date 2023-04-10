@@ -22,7 +22,7 @@ app.get("/:search", (req, res) => {
       headers: {
         "X-Naver-Client-Id": process.env.ID_KEY,
         "X-Naver-Client-Secret": process.env.PW_KEY,
-        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Origin": "https://openapi.naver.com",
       },
     })
     .then((response) => {
